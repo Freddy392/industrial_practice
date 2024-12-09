@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Plans</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app" class="container mx-auto py-6">
+        <div class="content">
+            <h1 class="title">Coffee Plans</h1>
+            <plan-picker></plan-picker>
+            <h2 class="subtitle">
+                We travel the world to source the very best single origin coffee for you
+            </h2>
+
+            <div class="plans">
+                <click-counter></click-counter>
+                <click-counter></click-counter>
+                <click-counter></click-counter>
+                <click-counter></click-counter>
+            </div>
+
+            <h1>Vue.js Slots Fundamentals</h1>
+            <todo-item>
+                Buy Bananas
+                <template #description>
+                    <p>Bananas are good for your health</p>
+                </template>
+                <template #button-text>
+                    Make it nice
+                </template>
+            </todo-item>
+            <todo-item>Eat Bananas</todo-item>
+            <todo-item>Celebrate!</todo-item>
+        </div>
+    </div>
+
+    <script type="text/x-template" id="click-counter-template">
+        <button @click="count++">the count is: {{count}}</button>
+    </script>
+
+    <script type="text/x-template" id="plan-template">
+        <div class="plan" :class="{'active-plan': selected}" @click="select">
+            <div class="description">
+                <span class="title">{{name}}</span>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-template" id="plan-picker-item-template">
+        <div class="plan" :class="{'active-plan': selected}" @click="select">
+            <div class="description">
+                <span class="title">{{name}}</span>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-template" id="plan-picker-template">
+        <div class="plans">
+            <plan-picker-item 
+                v-for="plan in plans" 
+                :key="plan"
+                :name="plan"
+                :selected="plan === selectedPlan"
+                v-on:select="selectPlan">
+            </plan-picker-item>
+        </div>
+    </script>
+
+    <script type="text/x-template" id="todo-item-template">
+        <div>
+            <input type="checkbox" v-model="done">
+            <span :class="{ done }">
+                <slot></slot>
+            </span>
+            <slot name="description"></slot>
+            <button><slot name="button-text">Highlight</slot></button>
+        </div>
+    </script>
+
+    <style>
+        .done {
+            color: green;
+            text-decoration: line-through;
+        }
+    </style>
+
+    <script src="app.js"></script>
+</body>
+</html>
